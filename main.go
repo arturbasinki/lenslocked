@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
 type Router struct{}
@@ -36,6 +38,11 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "<h1>FAQ Page</h1><p>Please check our <a href=\"/contact\">contact page</a> for details.</p>")
 }
 
+func galeryHandler(w http.ResponseWriter, r *http.Request) {
+	galleryID := chi.URLParam(r, "galleryID")
+	w.Write([]byte(fmt.Sprintf("<h1>Gallery ID: %s</h1>", galleryID)))
+}
+
 // func pathHandler(w http.ResponseWriter, r *http.Request) {
 // 	switch r.URL.Path {
 // 	case "/":
@@ -48,13 +55,22 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 // }
 
 func main() {
+	r := chi.NewRouter()
+	r.Get("/", homeHandler)
+	r.Get("/contact", contactHandler)
+	r.Get("/faq", faqHandler)
+	r.Get("/gallery/{galleryID}", galeryHandler)
+	r.NotFound(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Page not found", http.StatusNotFound)
+	}))
 	// http.HandleFunc("/", homeHandler)
 	// http.HandleFunc("/contact", contactHandler)
 	// http.HandleFunc("/", pathHandler)
-	var router Router
+	// var router Router
 	// var router http.HandlerFunc
 	// router := http.HandlerFunc(pathHandler)
 	fmt.Println("Starting the srver on :3000...")
 	// http.ListenAndServe(":3000", http.HandlerFunc(pathHandler))
-	http.ListenAndServe(":3000", &router)
+	// http.ListenAndServe(":3000", &router)
+	http.ListenAndServe(":3000", r)
 }
