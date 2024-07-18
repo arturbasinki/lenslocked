@@ -1,2 +1,0 @@
-# lenslocked
-go web gallery

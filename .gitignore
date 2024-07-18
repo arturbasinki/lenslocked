@@ -22,3 +22,6 @@ go.work
 
 # Ignore the lenslocked binary in source code commits
 lenslocked
+
+# Auxiliuary tools
+modd.conf
