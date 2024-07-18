@@ -11,21 +11,21 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-type Router struct{}
+// type Router struct{}
 
-func (router *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/":
-		homeHandler(w, r)
-	case "/contact":
-		contactHandler(w, r)
-	case "/faq":
-		faqHandler(w, r)
-	default:
-		http.Error(w, "Page not found", http.StatusNotFound)
-	}
+// func (router *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+// 	switch r.URL.Path {
+// 	case "/":
+// 		homeHandler(w, r)
+// 	case "/contact":
+// 		contactHandler(w, r)
+// 	case "/faq":
+// 		faqHandler(w, r)
+// 	default:
+// 		http.Error(w, "Page not found", http.StatusNotFound)
+// 	}
 
-}
+// }
 
 func executeTemplate(w http.ResponseWriter, filepath string) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -90,8 +90,8 @@ func main() {
 	// var router Router
 	// var router http.HandlerFunc
 	// router := http.HandlerFunc(pathHandler)
-	fmt.Println("Starting the srver on :3000...")
+	fmt.Println("Starting the server on :3050...")
 	// http.ListenAndServe(":3000", http.HandlerFunc(pathHandler))
 	// http.ListenAndServe(":3000", &router)
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":3050", r)
 }
