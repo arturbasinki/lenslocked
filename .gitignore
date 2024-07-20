@@ -25,3 +25,6 @@ lenslocked
 
 # Auxiliuary tools
 modd.conf
+
+# Experimental package
+/cmd/exp/*
