@@ -21,24 +21,25 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "<h1>Contact Page</h1><p>To get in touch, email me at <a href=\"mailto:jon@calhoun.io\">artur.basinski@dupa.com</a>.</p>")
 }
 
-func pathHandler(w http.ResponseWriter, r *http.Request) {
+type Router struct{}
+
+func (router *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/":
 		homeHandler(w, r)
 	case "/contact":
 		contactHandler(w, r)
 	default:
-		w.WriteHeader(http.StatusNotFound)
-		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		fmt.Fprint(w, "<h1>404 Not Found</h1><p>The page you are looking for does not exist.</p>")
+		http.Error(w, "The page you are looking for does not exist.", http.StatusNotFound)
 	}
 }
 
 func main() {
-	http.HandleFunc("/", pathHandler)
+	// Create a new router
+	router := &Router{}
 	// Start the server on port 3000
 	fmt.Println("Server is running on http://localhost:3000")
-	if err := http.ListenAndServe(":3000", nil); err != nil {
+	if err := http.ListenAndServe(":3000", router); err != nil {
 		fmt.Println("Error starting server:", err)
 	}
 }
