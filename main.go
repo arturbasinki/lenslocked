@@ -20,12 +20,23 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	// Write a simple HTML response
 	fmt.Fprint(w, "<h1>Contact Page</h1><p>To get in touch, email me at <a href=\"mailto:jon@calhoun.io\">artur.basinski@dupa.com</a>.</p>")
 }
+
+func pathHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.URL.Path {
+	case "/":
+		homeHandler(w, r)
+	case "/contact":
+		contactHandler(w, r)
+	default:
+		// TODO: 404 page
+	}
+}
+
 func main() {
-	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/contact", contactHandler)
-	// Start the server on port 3030
-	fmt.Println("Server is running on http://localhost:3030")
-	if err := http.ListenAndServe(":3030", nil); err != nil {
+	http.HandleFunc("/", pathHandler)
+	// Start the server on port 3000
+	fmt.Println("Server is running on http://localhost:3000")
+	if err := http.ListenAndServe(":3000", nil); err != nil {
 		fmt.Println("Error starting server:", err)
 	}
 }
